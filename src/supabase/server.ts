@@ -1,8 +1,11 @@
+
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
-export function createSupabaseClient() {
+
+export async function createSupabaseClient() {
   const cookieStore = cookies();
+  const cookieValue = cookieStore.get('your-cookie-name')?.value;
 
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -10,12 +13,8 @@ export function createSupabaseClient() {
     {
       cookies: {
         getAll() {
+          // Only reading cookies
           return cookieStore.getAll();
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) =>
-            cookieStore.set(name, value, options)
-          );
         },
       },
     }

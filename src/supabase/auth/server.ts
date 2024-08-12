@@ -1,20 +1,23 @@
-import { User } from "@/lib/types";
 import { createSupabaseClient } from "../server";
+import { User } from "@/lib/types";
 
-export function getAuth() {
-  const { auth } = createSupabaseClient();
-  return auth;
+// Function to get the authentication client
+export async function getAuth() {
+  const supabase = await createSupabaseClient();
+  return supabase.auth; // Now you can safely access the auth client
 }
 
+// Function to get the current authenticated user
 export const getUser = async () => {
-  const auth = getAuth();
-  const authUser = (await auth.getUser()).data.user;
+  const auth = await getAuth();
+  const { data: { user: authUser } } = await auth.getUser();
+
   if (!authUser) return null;
 
-  // fetch user from database
+  // Simulate fetching a user from the database
   const dbUser = {
-    email: "coleblender@gmail.com",
-    name: "Cole Blender",
+    email: "mananpainter056@gmail.com",
+    name: "Manan Painter",
     avatarUrl: "https://www.github.com/coleblender.png",
   };
   if (!dbUser) return null;

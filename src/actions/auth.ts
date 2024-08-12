@@ -7,7 +7,7 @@ export const loginAction = async (formData: FormData) => {
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
 
-    const auth = getAuth();
+    const auth = await getAuth();
 
     const { error } = await auth.signInWithPassword({
       email,
@@ -24,7 +24,7 @@ export const loginAction = async (formData: FormData) => {
 
 export const signOutAction = async () => {
   try {
-    const auth = getAuth();
+    const auth = await getAuth();
 
     const { error } = await auth.signOut();
 
@@ -41,7 +41,7 @@ export const signupAction = async (formData: FormData) => {
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
 
-    const auth = getAuth();
+    const auth = await getAuth();
 
     const { error } = await auth.signUp({
       email,
